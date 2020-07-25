@@ -6,4 +6,4 @@
 - JPA
 - H2 Database
 - SpringSecurity
-- Mustache
+- Mustache server-side template engine
