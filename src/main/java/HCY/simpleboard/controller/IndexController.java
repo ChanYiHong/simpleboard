@@ -9,7 +9,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model){
-        model.addAttribute("name", "찬의");
+        //model.addAttribute("name", "찬의");
         return "index";
     }
 }
