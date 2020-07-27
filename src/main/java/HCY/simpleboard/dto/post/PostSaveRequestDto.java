@@ -4,8 +4,9 @@ import HCY.simpleboard.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 public class PostSaveRequestDto {
 

@@ -22,4 +22,8 @@ public class PostService {
         return postRepository.save(requestDto.toEntity());
     }
 
+    public List<Post> findAllPosts(){
+        return postRepository.findAll();
+    }
+
 }
