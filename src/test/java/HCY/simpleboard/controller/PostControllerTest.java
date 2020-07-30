@@ -1,6 +1,7 @@
 package HCY.simpleboard.controller;
 
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.service.PostService;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,20 @@ public class PostControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void post저장() throws Exception {
+        //given
+        mockMvc.perform(post("/post")
+                .param("title", "제목")
+                .param("author", "저자")
+                .param("content", "내용"))
+                .andExpect(status().isOk());
+        //when
+
+        //then
+
+    }
+
 
     @Test
     public void post생성완료_및_저장() throws Exception {
@@ -60,9 +75,10 @@ public class PostControllerTest {
                 .andExpect(header().string("Location", "/"));
 
         //when
-
-        Post expectedPost = Post.builder()
+        Post post = Post.builder()
                 .title("생일").author("찬의").content("생일축하해").build();
+
+        PostResponseDto expectedPost = new PostResponseDto(post);
 
         //then
         mockMvc.perform(get("/"))

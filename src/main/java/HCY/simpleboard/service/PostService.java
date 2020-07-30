@@ -1,6 +1,7 @@
 package HCY.simpleboard.service;
 
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.dto.post.PostSaveRequestDto;
 import HCY.simpleboard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ public class PostService {
         return postRepository.save(requestDto.toEntity());
     }
 
-    public List<Post> findAllPosts(){
-        return postRepository.findAll();
+    public List<PostResponseDto> findAllPosts(){
+        List<Post> posts = postRepository.findAll();
+        return new PostResponseDto().toEntities(posts);
     }
 
 }

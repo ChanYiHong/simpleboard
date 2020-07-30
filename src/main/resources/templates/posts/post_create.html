@@ -7,7 +7,7 @@
 <body>
     <h1>게시물 추가 화면</h1>
     <div class="container">
-        <form role="form" th:action="@{/post}" th:object="${post}" method="post">
+        <form role="form" action="/post" th:object="${post}" method="post">
             <div class="form-group">
                 <label th:for="title">Title : </label>
                 <input type="text" th:field="*{title}" size="50" placeholder="제목을 입력하세요"/><br/>

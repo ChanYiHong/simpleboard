@@ -24,19 +24,19 @@ public class PostServiceTest {
     @Test
     public void savePostDto() throws Exception {
         //given
-        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+        Post post = Post.builder()
                 .title("Eunah").author("ChanYi").content("contents").build();
 
         //when
 
-        Long findId = postService.savePost(requestDto);
+        Long findId = postService.savePost(post);
 
         //then
 
-        Post post = postRepository.findById(findId);
+        Post findPost = postRepository.findById(findId);
 
-        assertThat(post.getTitle()).isEqualTo(requestDto.getTitle());
-        assertThat(post.getAuthor()).isEqualTo(requestDto.getAuthor());
-        assertThat(post.getContent()).isEqualTo(requestDto.getContent());
+        assertThat(findPost.getTitle()).isEqualTo(post.getTitle());
+        assertThat(findPost.getAuthor()).isEqualTo(post.getAuthor());
+        assertThat(findPost.getContent()).isEqualTo(post.getContent());
     }
 }

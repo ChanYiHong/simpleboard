@@ -1,6 +1,7 @@
 package HCY.simpleboard.controller;
 
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,9 @@ public class IndexController {
 
     private final PostService postService;
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public String index(Model model){
-        List<Post> posts = postService.findAllPosts();
+        List<PostResponseDto> posts = postService.findAllPosts();
         if(posts != null){
             model.addAttribute("posts",posts);
         }
