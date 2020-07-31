@@ -10,9 +10,10 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = {"title"})})
 public class Post {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -30,5 +31,10 @@ public class Post {
         this.title = title;
         this.author = author;
         this.content = content;
+    }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.title = content;
     }
 }

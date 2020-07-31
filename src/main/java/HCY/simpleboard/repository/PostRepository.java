@@ -14,9 +14,8 @@ public class PostRepository {
 
     private final EntityManager em;
 
-    public Long save(Post post){
+    public void save(Post post){
         em.persist(post);
-        return post.getId();
     }
 
     public Post findById(Long id){
@@ -26,6 +25,12 @@ public class PostRepository {
 
     public List<Post> findAll(){
         return em.createQuery("select p from Post p", Post.class)
+                .getResultList();
+    }
+
+    public List<Post> findByTitle(String title){
+        return em.createQuery("select p from Post p where p.title = :title", Post.class)
+                .setParameter("title", title)
                 .getResultList();
     }
 }

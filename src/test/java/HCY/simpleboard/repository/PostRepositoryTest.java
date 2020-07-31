@@ -27,10 +27,11 @@ public class PostRepositoryTest {
         Post post = post생성기();
 
         //when
-        Long id = postRepository.save(post);
+        postRepository.save(post);
+        Post findPost = postRepository.findById(post.getId());
 
         //then
-        assertThat(post.getId()).isEqualTo(id);
+        assertThat(post.getTitle()).isEqualTo(findPost.getTitle());
     }
     
     @Test

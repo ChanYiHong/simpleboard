@@ -2,6 +2,7 @@ package HCY.simpleboard.controller;
 
 import HCY.simpleboard.domain.Post;
 import HCY.simpleboard.dto.post.PostResponseDto;
+import HCY.simpleboard.repository.PostRepository;
 import HCY.simpleboard.service.PostService;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,9 @@ public class PostControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private PostRepository postRepository;
+
     private MockMvc mockMvc;
 
     @Before
@@ -46,20 +50,6 @@ public class PostControllerTest {
         //then
         mockMvc.perform(get("/post"))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    public void post저장() throws Exception {
-        //given
-        mockMvc.perform(post("/post")
-                .param("title", "제목")
-                .param("author", "저자")
-                .param("content", "내용"))
-                .andExpect(status().isOk());
-        //when
-
-        //then
-
     }
 
 
@@ -85,9 +75,28 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(model().attributeExists("posts"))
-                .andExpect(model().attribute("posts", hasSize(1)))
-                .andExpect(model().attribute("posts", contains(samePropertyValuesAs(expectedPost))));
+                .andExpect(model().attribute("posts", hasSize(1)));
 
     }
+
+//    @Test
+//    public void 업데이트() throws Exception {
+//        //given
+//
+//        Post post = Post.builder().content("제목").author("저자").content("내용").build();
+//        postRepository.save(post)
+//
+//        //when
+//
+//        mockMvc.perform(post("/post")
+//                .param("title", "제목")
+//                .param("author", "저자")
+//                .param("content", "내용"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(header().string("Location", "/"));
+//
+//        //then
+//
+//    }
 
 }

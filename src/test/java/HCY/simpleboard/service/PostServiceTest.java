@@ -1,7 +1,9 @@
 package HCY.simpleboard.service;
 
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.dto.post.PostSaveRequestDto;
+import HCY.simpleboard.dto.post.PostUpdateRequestDto;
 import HCY.simpleboard.repository.PostRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,19 +26,41 @@ public class PostServiceTest {
     @Test
     public void savePostDto() throws Exception {
         //given
-        Post post = Post.builder()
+        PostSaveRequestDto saveRequestDto  = PostSaveRequestDto.builder()
                 .title("Eunah").author("ChanYi").content("contents").build();
 
         //when
 
-        Long findId = postService.savePost(post);
+        Long findId = postService.savePost(saveRequestDto);
 
         //then
 
-        Post findPost = postRepository.findById(findId);
+        PostResponseDto findPost = postService.findPostById(findId);
 
-        assertThat(findPost.getTitle()).isEqualTo(post.getTitle());
-        assertThat(findPost.getAuthor()).isEqualTo(post.getAuthor());
-        assertThat(findPost.getContent()).isEqualTo(post.getContent());
+        assertThat(findPost.getTitle()).isEqualTo(saveRequestDto.getTitle());
+        assertThat(findPost.getAuthor()).isEqualTo(saveRequestDto.getAuthor());
+        assertThat(findPost.getContent()).isEqualTo(saveRequestDto.getContent());
+    }
+
+
+    @Test
+    public void updatePostDto() throws Exception {
+        //given
+
+        PostSaveRequestDto post = PostSaveRequestDto.builder().content("제목").author("저자").content("내용").build();
+        Long id = postService.savePost(post);
+
+        //when
+
+//        PostUpdateRequestDto updateRequestDto = PostUpdateRequestDto.builder().title("다른제목").content("다른내용").build();
+//
+//        Long updatedId = postService.updatePost(updateRequestDto, id);
+//
+//        Post updatedPost = postService.findPost(updatedId);
+//
+//        //then
+//
+//        assertThat(updatedPost.getTitle()).isEqualTo(updateRequestDto.getTitle());
+//        assertThat(updatedPost.getContent()).isEqualTo(updateRequestDto.getContent());
     }
 }

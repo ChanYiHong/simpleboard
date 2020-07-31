@@ -12,7 +12,7 @@
         <div class="lead" th:unless = "${#lists.isEmpty(posts)}">
             <dl th:each = "post : ${posts}">
                 <dt>
-                    <span th:text="${post.title}">Title</span> by
+                    <a th:text="${post.title}" th:href="@{/post/update/{title} (title=${post.title})}">Title</a> by
                     <span th:text="${post.author}">Author</span>
                 </dt>
                 <dd>
@@ -29,7 +29,6 @@
     </div>
     <br>
     <a class="btn btn-primary" href="/post">게시물 등록</a>
-
-
+    <a>게시물 전체 삭제</a>
 </body>
 </html>
