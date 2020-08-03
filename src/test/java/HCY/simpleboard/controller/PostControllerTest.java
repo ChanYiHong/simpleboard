@@ -18,8 +18,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -79,24 +80,30 @@ public class PostControllerTest {
 
     }
 
-//    @Test
-//    public void 업데이트() throws Exception {
-//        //given
-//
-//        Post post = Post.builder().content("제목").author("저자").content("내용").build();
-//        postRepository.save(post)
-//
-//        //when
-//
-//        mockMvc.perform(post("/post")
-//                .param("title", "제목")
-//                .param("author", "저자")
-//                .param("content", "내용"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(header().string("Location", "/"));
-//
-//        //then
-//
-//    }
+    @Test
+    public void 업데이트() throws Exception {
+        //given
+
+        Post post = new Post();
+        post.setTitle("Title");
+        post.setAuthor("Author");
+        post.setContent("Content");
+        postRepository.save(post);
+
+        Long id = post.getId();
+        PostResponseDto responseDto = PostResponseDto.builder().post(post).build();
+        //when
+
+        mockMvc.perform(get("/post/update/"+id))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/posts/post_update"))
+                .andExpect(model().attributeExists("post"));
+
+        //then
+
+
+
+
+    }
 
 }

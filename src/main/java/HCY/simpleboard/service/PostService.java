@@ -38,18 +38,18 @@ public class PostService {
         return PostResponseDto.builder().post(post).build();
     }
 
-    @Transactional
-    public Long updatePost(PostUpdateRequestDto updateRequestDto, Long id){
-        Post post = postRepository.findById(id);
-        post.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
-
-        return id;
-    }
-
     public PostResponseDto findPostByTitle(String title){
         List<Post> posts = postRepository.findByTitle(title);
         Post post = posts.get(0);
         PostResponseDto dto = PostResponseDto.builder().post(post).build();
         return dto;
+    }
+
+    @Transactional
+    public Long updatePost(PostUpdateRequestDto updateRequestDto, Long id){
+        Post post = postRepository.findById(id);
+        post.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
+        //postRepository.save(post);
+        return id;
     }
 }

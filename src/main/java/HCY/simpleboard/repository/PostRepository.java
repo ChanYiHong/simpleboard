@@ -15,7 +15,11 @@ public class PostRepository {
     private final EntityManager em;
 
     public void save(Post post){
-        em.persist(post);
+        if(post.getId() == null) {
+            em.persist(post);
+        } else{
+            em.merge(post);
+        }
     }
 
     public Post findById(Long id){
