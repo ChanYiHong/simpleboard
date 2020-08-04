@@ -52,4 +52,10 @@ public class PostService {
         //postRepository.save(post);
         return id;
     }
+
+    @Transactional
+    public void deletePost(Long id){
+        Post post = postRepository.findById(id);
+        postRepository.deletePost(post);
+    }
 }
