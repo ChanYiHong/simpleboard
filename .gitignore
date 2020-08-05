@@ -1,6 +1,6 @@
 .idea
 .gradle
-
+application-oauth.properties
 # Project exclude paths
 /build/
 /out/production/classes/
