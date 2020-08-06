@@ -1,6 +1,7 @@
 .idea
 .gradle
 application-oauth.yml
+application-oauth.properties
 # Project exclude paths
 /build/
 /out/production/classes/
