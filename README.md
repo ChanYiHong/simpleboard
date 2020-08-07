@@ -3,7 +3,9 @@
 ## Technology stack
 
 - SpringBoot
-- JPA
+- JPA Hibernate
 - H2 Database
 - SpringSecurity
-- Mustache server-side template engine
+- OAuth2 Social Login (Google, Naver)
+- Thymeleaf Server Side Template Engine
+
