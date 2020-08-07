@@ -1,18 +1,24 @@
 package HCY.simpleboard.domain.user;
 
+import HCY.simpleboard.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Entity
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();;
 
     @Column(nullable = false)
     private String name;

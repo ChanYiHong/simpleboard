@@ -1,6 +1,7 @@
 package HCY.simpleboard.service;
 
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.domain.user.User;
 import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.dto.post.PostSaveRequestDto;
 import HCY.simpleboard.dto.post.PostUpdateRequestDto;
@@ -21,10 +22,13 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long savePost(PostSaveRequestDto requestDto){
+    public Long savePost(PostSaveRequestDto requestDto, User user){
+        // User 의 name을 author로 저장..
+
+
         Post post = requestDto.toEntity();
+        post.setUser(user);
         postRepository.save(post);
-        System.out.println(post.getId());
         return post.getId();
     }
 

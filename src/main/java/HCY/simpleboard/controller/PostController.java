@@ -1,10 +1,14 @@
 package HCY.simpleboard.controller;
 
+import HCY.simpleboard.config.auth.LoginUser;
+import HCY.simpleboard.config.auth.dto.SessionUser;
 import HCY.simpleboard.domain.Post;
+import HCY.simpleboard.domain.user.User;
 import HCY.simpleboard.dto.post.PostResponseDto;
 import HCY.simpleboard.dto.post.PostSaveRequestDto;
 import HCY.simpleboard.dto.post.PostUpdateRequestDto;
 import HCY.simpleboard.service.PostService;
+import HCY.simpleboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,19 +24,39 @@ import javax.validation.Valid;
 public class PostController {
 
     private final PostService postService;
+    private final UserService userService;
+
 
     @GetMapping(value = "/post")
-    public String createPost(Model model) {
-        model.addAttribute("post", new PostSaveRequestDto());
+    public String createPost(Model model, @LoginUser SessionUser sessionUser) {
+        /** User 넘겨봤자 다시 null로 날라오니까 애초에 author만 넘기자. **/
+        PostSaveRequestDto requestDto = new PostSaveRequestDto();
+
+        String name = sessionUser.getName();
+        requestDto.setAuthor(name);
+
+        model.addAttribute("post", requestDto);
         return "/posts/post_create";
     }
 
     @PostMapping(value = "/post")
-    public String savePost(@Valid PostSaveRequestDto response, BindingResult result){
+    public String savePost(@Valid PostSaveRequestDto response, BindingResult result, @LoginUser SessionUser sessionUser){
         if(result.hasErrors()) {
             return "/posts/post_create";
         }
-        postService.savePost(response);
+        System.out.println(response.getTitle());
+
+        response.setAuthor(sessionUser.getName());
+
+        System.out.println(response.getAuthor());
+        System.out.println(response.getContent());
+
+
+        User user = userService.findUserByName(response.getAuthor());
+
+        System.out.println(user);
+
+        postService.savePost(response, user);
         return "redirect:/";
     }
 
