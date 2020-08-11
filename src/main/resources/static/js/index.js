@@ -1,6 +1,7 @@
 var main = {
     init : function () {
         var _this = this;
+
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
@@ -10,8 +11,9 @@ var main = {
 
         $.ajax({
             type: 'POST',
-            url: '/post/delete/'+id,
-        }).done(function() {
+            url: '/post/delete/'+id
+        }).done(function(data) {
+            console.log(data);
             alert('글이 삭제되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
@@ -19,7 +21,6 @@ var main = {
             alert("요청 실패!!!");
         });
     }
-
 };
 
 main.init();

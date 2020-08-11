@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <div th:if = "${user != null}">
-            <h1>Logged in as : <span id="user" th:text="${user.name}"></span></h1>
+            <h1>Logged in as : <span th:text="${user.name}"></span></h1>
         </div>
         <div th:if="${user == null}">
             <h1>Not logged in</h1>
@@ -15,29 +15,32 @@
         <a href="/login" class="btn btn-info active" role="button">Login</a>
         <a href="/logout" class="btn btn-info active" role="button">Logout</a>
 
-        <h1>게시판 현황</h1>
+        <h1 th:text="#{home.welcome}">게시판 현황</h1>
 
         <div>
-            <table class="table table-striped"> <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Content</th>
-                <th></th>
-            </tr>
-            </thead>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Content</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
-                <tr th:each="post : ${posts}">
-                    <td th:text="${post.id}"></td>
-                    <td th:text="${post.title}"></td>
-                    <td th:text="${post.author}"></td>
-                    <td th:text="${post.content}"></td>
-                    <td>
-                        <a href="Title" th:href="@{/post/update/{id} (id=${post.id})}" class="btn btn-primary" role="button">수정</a>
-                    </td>
-                </tr>
-                </tr>
+                    <tr th:each="post : ${posts}" th:object="${user}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.title}"></td>
+                        <td th:text="${post.author}"></td>
+                        <td th:text="${post.content}"></td>
+                        <div th:if="${user != null}">
+                            <td th:if="${post.author} == ${user.name}">
+                                <a th:href="@{/post/update/{id} (id=${post.id})}"
+                                    class="btn btn-primary" >수정</a>
+                            </td>
+                        </div>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -45,32 +48,6 @@
         <a>게시물 전체 삭제</a>
     </div>
 
-<!--    <div class="jumbotron">-->
-<!--        <h1>게시판 현황</h1>-->
-
-<!--        <div class="col-md-12">-->
-<!--            <div class="row" th:unless = "${#lists.isEmpty(posts)}">-->
-<!--                <dl th:each = "post : ${posts}">-->
-<!--                    <dt>-->
-<!--                        <a th:text="${post.title}" th:href="@{/post/update/{id} (id=${post.id})}">Title</a> by-->
-<!--                        <span th:text="${post.author}">Author</span>-->
-<!--                    </dt>-->
-<!--                    <dd>-->
-<!--                        <span th:if="${post.content}"-->
-<!--                              th:text="${post.content}">Content</span>-->
-<!--                        <span th:if="${post.content eq null}"-->
-<!--                              No Content Available></span>-->
-<!--                    </dd>-->
-<!--                </dl>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div th:if="${#lists.isEmpty(posts)}">-->
-<!--            <p>현재 당신의 게시물은 없어요...</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <br>-->
-<!--    <a class="btn btn-primary" href="/post">게시물 등록</a>-->
-<!--    <a>게시물 전체 삭제</a>-->
     <th:block th:replace="fragments/footer :: footer"></th:block>
 </body>
 </html>

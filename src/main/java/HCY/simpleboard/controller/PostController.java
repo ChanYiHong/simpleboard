@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
+import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 @Controller
@@ -61,9 +62,16 @@ public class PostController {
     }
 
     @GetMapping(value = "/post/update/{id}")
-    public String updatePostView(@PathVariable("id") Long id, Model model){
+    public String updatePostView(@PathVariable("id") Long id, Model model, @LoginUser SessionUser sessionUser){
 
         PostResponseDto dto = postService.findPostById(id);
+
+        System.out.println("DTO의 author: " + dto.getAuthor());
+        System.out.println("Login User의 author: " + sessionUser.getName());
+
+//        if(!sessionUser.getName().equals(dto.getAuthor())){
+//
+//        }
 
         model.addAttribute("post", dto);
 
@@ -73,10 +81,10 @@ public class PostController {
     }
 
     @PostMapping(value = "/post/update/{id}")
-    public String updatePost(@PathVariable Long id, @Valid @ModelAttribute("post") PostUpdateRequestDto response, BindingResult result) {
+    public String updatePost(@PathVariable("id") Long id, @Valid @ModelAttribute("post") PostUpdateRequestDto response, BindingResult result) {
 
         if(result.hasErrors()){
-            throw new IllegalArgumentException("수정 실패...");
+            throw new IllegalArgumentException("Fail to Adjust...");
         }
         postService.updatePost(response, id);
 
