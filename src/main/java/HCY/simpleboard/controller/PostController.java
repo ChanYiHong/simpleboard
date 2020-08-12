@@ -28,9 +28,10 @@ public class PostController {
     private final UserService userService;
 
 
+    /** Post 저장 (Get) **/
     @GetMapping(value = "/post")
     public String createPost(Model model, @LoginUser SessionUser sessionUser) {
-        /** User 넘겨봤자 다시 null로 날라오니까 애초에 author만 넘기자. **/
+        /** User 넘겨봤자 다시 null로 날라오니까 애초에 author를 저장해서 넘기자. **/
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
 
         String name = sessionUser.getName();
@@ -40,46 +41,33 @@ public class PostController {
         return "/posts/post_create";
     }
 
+    /** Post 저장 (Post) **/
     @PostMapping(value = "/post")
     public String savePost(@Valid PostSaveRequestDto response, BindingResult result, @LoginUser SessionUser sessionUser){
         if(result.hasErrors()) {
             return "/posts/post_create";
         }
-        System.out.println(response.getTitle());
-
+        // form에서 나온 response에 author가 null로 오기 때문에, session user의 이름을 저장해준다.
         response.setAuthor(sessionUser.getName());
 
-        System.out.println(response.getAuthor());
-        System.out.println(response.getContent());
-
-
         User user = userService.findUserByName(response.getAuthor());
-
-        System.out.println(user);
 
         postService.savePost(response, user);
         return "redirect:/";
     }
 
+    /** Post 수정 (Get) **/
     @GetMapping(value = "/post/update/{id}")
     public String updatePostView(@PathVariable("id") Long id, Model model, @LoginUser SessionUser sessionUser){
 
         PostResponseDto dto = postService.findPostById(id);
 
-        System.out.println("DTO의 author: " + dto.getAuthor());
-        System.out.println("Login User의 author: " + sessionUser.getName());
-
-//        if(!sessionUser.getName().equals(dto.getAuthor())){
-//
-//        }
-
         model.addAttribute("post", dto);
-
-        System.out.println("GET id : " + id);
 
         return "/posts/post_update";
     }
 
+    /** Post 수정 (Post) **/
     @PostMapping(value = "/post/update/{id}")
     public String updatePost(@PathVariable("id") Long id, @Valid @ModelAttribute("post") PostUpdateRequestDto response, BindingResult result) {
 
@@ -87,17 +75,12 @@ public class PostController {
             throw new IllegalArgumentException("Fail to Adjust...");
         }
         postService.updatePost(response, id);
-
-        System.out.println("POST id : " + id);
-        System.out.println("Title : " + response.getTitle());
-        System.out.println("Content : " + response.getContent());
-
         return "redirect:/";
     }
 
+    /** Post 삭제 (Post) **/  // DeleteMapping 을 써야 하는데 .. 그건 잘 모르겠다. 연동이 안되던데 html이랑
     @PostMapping(value = "/post/delete/{id}")
     public String delete(@PathVariable Long id){
-        System.out.println(id);
         postService.deletePost(id);
         return "redirect:/";
     }

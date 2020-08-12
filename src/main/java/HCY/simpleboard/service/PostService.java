@@ -23,10 +23,9 @@ public class PostService {
 
     @Transactional
     public Long savePost(PostSaveRequestDto requestDto, User user){
-        // User 의 name을 author로 저장..
-
-
+        // PostSaveRequestDto 를 Post entity로 변환! db에 저장하기 위함.
         Post post = requestDto.toEntity();
+        // 연관관계 메서드를 통해 양쪽 table 모두 저장. (User, Post)
         post.setUser(user);
         postRepository.save(post);
         return post.getId();
@@ -44,6 +43,7 @@ public class PostService {
 
     public PostResponseDto findPostByTitle(String title){
         List<Post> posts = postRepository.findByTitle(title);
+        // 어짜피 하나만 있으니.. collection의 맨 앞 값 (0) 에 접근.
         Post post = posts.get(0);
         PostResponseDto dto = PostResponseDto.builder().post(post).build();
         return dto;
