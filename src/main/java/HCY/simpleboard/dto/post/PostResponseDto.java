@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Post를 View에 띄우기 위한 Dto **/
 @Getter @Setter
 @NoArgsConstructor
 public class PostResponseDto {

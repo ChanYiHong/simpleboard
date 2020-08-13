@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Post를 Update하기 위해 필요한 정보를 담은 Dto **/
 @Getter @Setter
 @NoArgsConstructor
 public class PostUpdateRequestDto {
