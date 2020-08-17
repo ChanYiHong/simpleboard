@@ -53,7 +53,6 @@ public class PostService {
     public Long updatePost(PostUpdateRequestDto updateRequestDto, Long id){
         Post post = postRepository.findById(id);
         post.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
-        //postRepository.save(post);
         return id;
     }
 
